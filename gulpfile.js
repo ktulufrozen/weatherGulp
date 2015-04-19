@@ -6,6 +6,8 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     linker = require('gulp-linker'),
     uglify = require('gulp-uglify'),
+    traceur = require('gulp-traceur'),
+    del = require('del'),
 
     baseOutputFolder = 'build',
 
@@ -51,18 +53,21 @@ gulp.task('linkCss', function() {
 });
 
 gulp.task('minifyAppScripts', function() {
+    var result = gulp.src([scriptsSourceFolder + '/**/*Module.js', scriptsSourceFolder + '/**/*.js'])
+        .pipe(traceur());
+
     if (isProduction) {
-        gulp.src([scriptsSourceFolder + '/**/*Module.js', scriptsSourceFolder + '/**/*.js'])
-            .pipe(concat(minifiedSourcesFileName))
-            .pipe(uglify())
-            .pipe(gulp.dest(scriptsOutputFolder));
+        result = result.pipe(concat(minifiedSourcesFileName))
+            .pipe(uglify());
     }
+
+    return result.pipe(gulp.dest(scriptsOutputFolder));
 });
 
 gulp.task('linkScripts', function() {
     return gulp.src('./index.html')
         .pipe(linker({
-            scripts: isProduction ? [(scriptsOutputFolder + '/' + minifiedSourcesFileName)] : [(scriptsSourceFolder + '/' + '/**/*Module.js'), (scriptsSourceFolder + '/' + '/**/*.js')],
+            scripts: isProduction ? [(scriptsOutputFolder + '/' + minifiedSourcesFileName)] : [(scriptsOutputFolder + '/' + '/**/*Module.js'), (scriptsOutputFolder + '/' + '/**/*.js')],
             startTag: '<!--SCRIPTS-->',
             endTag: '<!--SCRIPTS END-->',
             fileTmpl: '<script type="text/javascript" src="%s"></script>',
@@ -71,8 +76,13 @@ gulp.task('linkScripts', function() {
         .pipe(gulp.dest('./'));
 });
 
+gulp.task('clean', function(cb) {
+    del([baseOutputFolder], cb);
+});
+
 gulp.task('default', function(callback) {
-    runSequence('lessToCss',
+    runSequence('clean',
+        'lessToCss',
         'linkCss',
         'minifyAppScripts',
         'linkScripts',

@@ -3,11 +3,12 @@
     angular.module('weatherModule')
 
         .factory('LocationWeather', function() {
-            var LocationWeather = function(data) {
-                var self = this;
-
-                self.location = data.location;
-                self.conditions = data.conditions;
+            class LocationWeather {
+                constructor (data) {
+                    "use strict";
+                    this.location = data.location;
+                    this.conditions = data.conditions;
+                }
             }
 
             return LocationWeather;
