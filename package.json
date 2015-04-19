@@ -8,6 +8,7 @@
         "run-sequence": "latest",
         "yargs": "latest",
         "gulp-minify-css": "latest",
-        "gulp-concat": "latest"
+        "gulp-concat": "latest",
+        "gulp-linker": "latest"
     }
 }
