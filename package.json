@@ -5,6 +5,9 @@
         "angular": "latest",
         "gulp": "latest",
         "gulp-less": "latest",
-        "run-sequence": "latest"
+        "run-sequence": "latest",
+        "yargs": "latest",
+        "gulp-minify-css": "latest",
+        "gulp-concat": "latest"
     }
 }
