@@ -59,9 +59,22 @@ gulp.task('minifyAppScripts', function() {
     }
 });
 
+gulp.task('linkScripts', function() {
+    return gulp.src('./index.html')
+        .pipe(linker({
+            scripts: isProduction ? [(scriptsOutputFolder + '/' + minifiedSourcesFileName)] : [(scriptsSourceFolder + '/' + '/**/*Module.js'), (scriptsSourceFolder + '/' + '/**/*.js')],
+            startTag: '<!--SCRIPTS-->',
+            endTag: '<!--SCRIPTS END-->',
+            fileTmpl: '<script type="text/javascript" src="%s"></script>',
+            appRoot: ''
+        }))
+        .pipe(gulp.dest('./'));
+});
+
 gulp.task('default', function(callback) {
     runSequence('lessToCss',
         'linkCss',
         'minifyAppScripts',
+        'linkScripts',
         callback);
 });
