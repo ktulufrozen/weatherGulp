@@ -1,0 +1,8 @@
+{
+    "name": "WeatherGulp",
+    "version": "0.0.1",
+    "devDependencies": {
+        "gulp": "latest",
+        "angular": "latest"
+    }
+}
