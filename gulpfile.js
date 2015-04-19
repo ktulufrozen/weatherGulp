@@ -8,6 +8,7 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     traceur = require('gulp-traceur'),
     del = require('del'),
+    karma = require('karma').server,
 
     baseOutputFolder = 'build',
 
@@ -80,11 +81,20 @@ gulp.task('clean', function(cb) {
     del([baseOutputFolder], cb);
 });
 
+gulp.task('runUnitTests', function(done) {
+    karma.start({
+        configFile: process.cwd() + '/unittests.conf.js',
+        singleRun: true
+    }, done);
+})
+
+
 gulp.task('default', function(callback) {
     runSequence('clean',
         'lessToCss',
         'linkCss',
         'minifyAppScripts',
         'linkScripts',
+        'runUnitTests',
         callback);
 });

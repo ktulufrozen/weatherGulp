@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "devDependencies": {
         "angular": "latest",
+        "angular-mocks": "latest",
         "gulp": "latest",
         "gulp-less": "latest",
         "run-sequence": "latest",
@@ -13,6 +14,10 @@
         "gulp-uglify": "latest",
         "gulp-traceur": "latest",
         "traceur": "latest",
-        "del": "latest"
+        "del": "latest",
+
+        "karma": "latest",
+        "karma-jasmine": "latest",
+        "karma-chrome-launcher": "latest"
     }
 }
