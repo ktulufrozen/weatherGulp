@@ -9,6 +9,7 @@
         "yargs": "latest",
         "gulp-minify-css": "latest",
         "gulp-concat": "latest",
-        "gulp-linker": "latest"
+        "gulp-linker": "latest",
+        "gulp-uglify": "latest"
     }
 }

@@ -5,6 +5,7 @@ var gulp = require('gulp'),
     minifycss = require('gulp-minify-css'),
     concat = require('gulp-concat'),
     linker = require('gulp-linker'),
+    uglify = require('gulp-uglify'),
 
     baseOutputFolder = 'build',
 
@@ -16,6 +17,11 @@ var gulp = require('gulp'),
     cssFolder = 'css',
     customCssFolder = cssFolder + '/custom',
     cssOutputFolder = baseOutputFolder + '/css',
+
+    scriptsOutputFolder = baseOutputFolder + '/js',
+
+    scriptsSourceFolder = 'js/app',
+    minifiedSourcesFileName = fileNameBase + '.min.js',
 
     isProduction = args.prod;
 
@@ -44,8 +50,18 @@ gulp.task('linkCss', function() {
         .pipe(gulp.dest('./'));
 });
 
+gulp.task('minifyAppScripts', function() {
+    if (isProduction) {
+        gulp.src([scriptsSourceFolder + '/**/*Module.js', scriptsSourceFolder + '/**/*.js'])
+            .pipe(concat(minifiedSourcesFileName))
+            .pipe(uglify())
+            .pipe(gulp.dest(scriptsOutputFolder));
+    }
+});
+
 gulp.task('default', function(callback) {
     runSequence('lessToCss',
         'linkCss',
+        'minifyAppScripts',
         callback);
 });
